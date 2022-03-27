@@ -14,6 +14,8 @@ namespace PatternExam
             var facade = new Facade(tourBase, clientBase);
 
             facade.CreateTour();
+
+            facade.PrintAllClients();
         }
     }
 }

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace PatternExam
 {
-    class Employee : Person, IEntity
+    interface IObserver
     {
-        public int Id { get; set; }
+        void Update(string property, object value);
     }
 }

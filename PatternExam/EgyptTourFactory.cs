@@ -13,24 +13,28 @@ namespace PatternExam
         private readonly string _name;
         private readonly DateTime _begin;
         private readonly DateTime _end;
-        public EgyptTourFactory(DateTime begin, int days, decimal dayPrice)
+        private readonly List<Client> _clients;
+        public EgyptTourFactory(DateTime begin, int days, decimal dayPrice, List<Client> clients = null)
         {
             _name = "Egypt Tour";
             _description = "YearRound season, pyramids";
             _price = dayPrice * days;
             _begin = begin;
             _end = begin + TimeSpan.FromDays(days);
+            _clients = clients;
         }
         public override Tour GetTour()
         {
-            return new EgyptTour()
-            {
-                Price = _price,
-                Description = _description,
-                Name = _name,
-                BeginDate = _begin,
-                EndDate = _end
-            };
+            var tour = new EgyptTour();
+            foreach (var client in _clients)
+                tour.AddClient(client);
+            tour.Price = _price;
+            tour.Description = _description;
+            tour.Name = _name;
+            tour.BeginDate = _begin;
+            tour.EndDate = _end;
+
+            return tour;
         }
     }
 }

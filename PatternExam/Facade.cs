@@ -22,6 +22,13 @@ namespace PatternExam
             _clientBase = clientBase;
         }
 
+        public void PrintAllClients()
+        {
+            Console.WriteLine("\nИнформация о всех клиентах:\n");
+            foreach(var client in _clientBase.Clients)
+                Console.WriteLine(client);
+        }
+
         public void AddClient(string name, string surname, string secondName, DateTime birthday, string phone, string address)
         {
             _clientBase.Add(name, surname, secondName, birthday, phone, address);
@@ -33,8 +40,7 @@ namespace PatternExam
             DateChoise();
             CountOfDaysChoise();
             AddClientsToTour();
-            var tour = _tourBase.GetTourFactory(_typeTour, _beginDate, _days).GetTour();
-            tour.Clients = _clients;
+            var tour = _tourBase.GetTourFactory(_typeTour, _beginDate, _days, _clients).GetTour();
             _tourBase.Add(tour);
             Console.WriteLine(tour);
 
@@ -45,7 +51,7 @@ namespace PatternExam
             _clients = new List<Client>();
             Console.WriteLine("Выберите клиентов из списка:\n");
             foreach(var client in _clientBase.Clients)
-                Console.WriteLine(client);
+                Console.WriteLine($"{client.Id} - {client.Name, 8} {client.Surname}");
 
             int clientId;
             while(true)
@@ -79,11 +85,15 @@ namespace PatternExam
 
         private void DateChoise()
         {
-            do
+            while (true)
             {
-                Console.WriteLine("Введите дату (dd\\mm\\yy)\n");
-            } while (DateTime.TryParse(Console.ReadLine(), out _beginDate));
+                Console.WriteLine("Введите дату (dd/mm/yy)\n");
+                var tmp = Console.ReadLine();
+                if (DateTime.TryParse(tmp, out _beginDate))
+                    break;
+            }
 
+        
         }
 
         private void CountOfDaysChoise()

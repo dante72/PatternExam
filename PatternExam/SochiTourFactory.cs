@@ -13,17 +13,15 @@ namespace PatternExam
         private readonly string _name;
         private readonly DateTime _begin;
         private readonly DateTime _end;
-        public SochiTourFactory(DateTime begin, int days, decimal dayPrice)
+        private readonly List<Client> _clients;
+        public SochiTourFactory(DateTime begin, int days, decimal dayPrice, List<Client> clients = null)
         {
             _name = "Sochi Tour";
             _begin = begin;
             _end = begin + TimeSpan.FromDays(days);
+            _clients = clients;
 
             var beginSeason = GetSeason(_begin);
-            var endSeason = GetSeason(_end);
-
-            if (beginSeason != endSeason)
-                throw new Exception("Error! Fix interval days");
 
             if (beginSeason == Season.Summer)
             {
@@ -39,14 +37,16 @@ namespace PatternExam
         }
         public override Tour GetTour()
         {
-            return new SochiTour()
-            {
-                Price = _price,
-                Description = _description,
-                Name = _name,
-                BeginDate = _begin,
-                EndDate = _end
-            };
+            var tour = new SochiTour();
+            foreach (var client in _clients)
+                tour.AddClient(client);
+            tour.Price = _price;
+            tour.Description = _description;
+            tour.Name = _name;
+            tour.BeginDate = _begin;
+            tour.EndDate = _end;
+
+            return tour;
         }
 
         private Season GetSeason(DateTime date)
