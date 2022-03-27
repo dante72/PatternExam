@@ -11,11 +11,20 @@ namespace PatternExam
         private static int currentId = 1;
         public List<Tour> Tours { get; } = new List<Tour>();
 
-        public void Add(string name, DateTime beginDate, int days)
+        public void Add(string name, DateTime beginDate, int days, List<Client> clients = null)
         {
             var factory = GetTourFactory(name, beginDate, days);
             var tour = factory.GetTour();
+            tour.Clients = clients;
             tour.Id = currentId++;
+            Tours.Add(tour);
+        }
+
+        public void Add(Tour tour)
+        {
+            tour.Id = currentId++;
+            if (tour?.Clients.Count > 0)
+                tour.Price *= tour.Clients.Count;
             Tours.Add(tour);
         }
 

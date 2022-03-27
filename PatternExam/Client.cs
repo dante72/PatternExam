@@ -12,5 +12,10 @@ namespace PatternExam
         public string Address { get; set; }
         public string Phone { get; set; }
 
+        public override string ToString()
+        {
+            return $"{Id,10} - {Name,10}\t{Surname,10}\t{SecondName,10}\t{Birthday}\t{Phone,10}";
+        }
+
     }
 }
